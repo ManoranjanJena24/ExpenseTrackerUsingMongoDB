@@ -3,6 +3,7 @@ var cors = require('cors')
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose=require('mongoose')
 
 const sequelize = require('./util/database')
 
@@ -20,27 +21,30 @@ const expenseRoutes = require('./routes/expense')
 app.use(bodyParser.json({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use((req, res, next) => {
-    Expense.findByPk(1).then((expense) => {
-        req.expense = expense
-        next();
-    }).catch((err) => {
-        console.log(err)
-    })
+// app.use((req, res, next) => {
+//     Expense.findByPk(1).then((expense) => {
+//         req.expense = expense
+//         next();
+//     }).catch((err) => {
+//         console.log(err)
+//     })
 
-})
+// })
+
+
 
 
 
 app.use(expenseRoutes)
 
 
-sequelize.sync({
-    // force: true  //these should not be done in production becoz we donot want to overwrite the table everytime we run
-
-})
-    
-app.listen(3000);
+mongoose.connect('mongodb+srv://Sharpner:sharpner123@cluster0.hvfvrv3.mongodb.net/expenseTracker?retryWrites=true&w=majority')
+    .then(() => {
+        console.log('Connected to database')
+        app.listen(3000)
+    }).catch((err) => {
+        console.log(err)
+    })
 
 
 

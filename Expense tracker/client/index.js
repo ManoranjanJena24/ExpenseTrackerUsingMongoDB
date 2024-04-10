@@ -38,13 +38,14 @@ function renderExpenses(expenses) {
     expensesList.innerHTML = '';
 
     expenses.forEach((expense, index) => {
-        const id = expense.id;
+        const id = expense._id;
+        console.log(expense)
         const li = document.createElement('li');
         li.className = 'list-group-item';
         li.innerHTML = `
       ${expense.amount} - ${expense.description} - ${expense.category}
-      <button type="button" class="btn btn-danger btn-sm float-right ml-2" onclick="deleteExpense(${id})">Delete</button>
-      <button type="button" class="btn btn-warning btn-sm float-right" onclick="editButton(${id},${expense.amount},'${expense.description}','${expense.category}')">Edit</button>
+      <button type="button" class="btn btn-danger btn-sm float-right ml-2" onclick="deleteExpense('${id}')">Delete</button>
+      <button type="button" class="btn btn-warning btn-sm float-right" onclick="editButton('${id}','${expense.amount}','${expense.description}','${expense.category}')">Edit</button>
     `;
         expensesList.appendChild(li);
     });
